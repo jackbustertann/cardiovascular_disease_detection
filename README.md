@@ -1,5 +1,7 @@
 # Cardiovascular Disease Detection
 
+<img src="/images/cardio_banner.jpeg"/>
+
 ## Motivation
 
 The motivation for this project was to predict the likelihood of a patient developing cardiovascular disease based on their lifestyle and physical condition. This could be used to accelerate the screening process for patients most at risk to improve their chances of recovery.
