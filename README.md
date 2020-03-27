@@ -4,11 +4,11 @@
 
 ## Motivation
 
-The motivation for this project was to predict the likelihood of a patient developing cardiovascular disease based on their lifestyle and physical condition. This could be used to accelerate the screening process for patients most at risk to improve their chances of recovery.
+The motivation for this project was to build a classification model to predict the likelihood of a patient developing cardiovascular disease based on their lifestyle and physical condition. The best performing model could then be used by healthcare institutions to automate the initial screening process for patients being considered for the disease. This would aim to reduce the time required for patients most at risk to receive a formal diagnosis, improving their chances of recovery.
 
 ## Data Collection
 
-The dataset used for this project consisted of information provided by 70,000 adult patients being tested for cardiovascular disease. This included a combination of objective features, such as age and gender, subjective features, such as smoking status and alcohol intake, and features obtained by medical examination, such as glucose and cholesterol levels, and blood pressure. The repository used to source this data can be found [here](https://www.kaggle.com/sulianova/cardiovascular-disease-dataset).
+The dataset used for this project consisted of information provided by 70,000 adult patients being tested for cardiovascular disease. This included a combination of objective features, such as age and gender, subjective features, such as smoking status and alcohol intake, and features obtained via medical examination, such as glucose and cholesterol levels, and blood pressure. The repository used to source this data can be found [here](https://www.kaggle.com/sulianova/cardiovascular-disease-dataset).
 
 ## Data Cleaning
 
@@ -24,10 +24,10 @@ The cleaning process for this project involved:
 Upon exploring the data, I discovered that:
 
 1. Patients generally became more prone to disease as they got older. <br/><br/>
-<img src="/images/age_and_gender.png" width="600"/>
+<img src="/images/age_and_gender.png"/>
 
 2. Patients with a high bmi increased their risk of disease. <br/><br/>
-<img src="/images/bmi_and_gender.png" width="600"/>
+<img src="/images/bmi_and_gender.png"/>
 
 3. Patients with high blood pressure were the most at risk of disease. <br/><br/>
 <img src="/images/top_12_groups.png"/>
