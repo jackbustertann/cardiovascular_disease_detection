@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 def data_preprocessor(X, bins = False):
 
@@ -26,13 +26,13 @@ def data_preprocessor(X, bins = False):
         return X_binned
 
     else:
-        numerical_columns = ['age', 'bmi', 'blood_pressure_max', 'blood_pressure_min', 'cholesterol_level', 'glucose_level']
-        X_numerical = X[numerical_columns]
-        X_categorical = X.drop(columns = numerical_columns)
+        num_columns = ['age', 'bmi', 'blood_pressure_min', 'blood_pressure_max', 'cholesterol_level', 'glucose_level']
+        X_num = X[num_columns]
+        X_cat = X.drop(columns = num_columns)
 
         scaler = StandardScaler()
-        X_scaled= scaler.fit_transform(X_numerical)
-        X_scaled = pd.DataFrame(X_scaled, columns = X_numerical.columns, index = X_numerical.index)
+        X_scaled= scaler.fit_transform(X_num)
+        X_scaled = pd.DataFrame(X_scaled, columns = X_num.columns, index = X_num.index)
 
-        X_processed = pd.merge(X_scaled, X_categorical, left_index = True, right_index = True)
+        X_processed = pd.merge(X_scaled, X_cat, left_index = True, right_index = True)
         return X_processed

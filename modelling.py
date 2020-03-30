@@ -6,6 +6,7 @@ import seaborn as sns
 
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score
 from sklearn.metrics import roc_curve
+from sklearn.naive_bayes import CategoricalNB, GaussianNB
 
 def classification_metrics(y, y_hat):
     accuracy = round(accuracy_score(y, y_hat), 3)
@@ -111,3 +112,39 @@ def model_report(y, y_hat, y_proba, model_name):
     print("")
     
     return None
+
+def mixed_NB(X, y):
+    num_columns = ['age', 'blood_pressure_min', 'blood_pressure_max', 'bmi']
+    X_num = X[num_columns]
+    X_cat = X.drop(columns = num_columns)
+
+    num_nb = GaussianNB()
+    cat_nb = CategoricalNB()
+
+    num_nb_model = num_nb.fit(X_num, y)
+    cat_nb_model = cat_nb.fit(X_cat, y)
+
+    y_num_proba = num_nb_model.predict_proba(X_num)[:,1].reshape(-1,1)
+    y_cat_proba = cat_nb_model.predict_proba(X_cat)[:,1].reshape(-1,1)
+
+    X_trans = np.hstack((y_cat_proba, y_num_proba))
+
+    mixed_nb = GaussianNB()
+    mixed_nb_model = mixed_nb.fit(X_trans, y)
+
+    return num_nb, cat_nb, mixed_nb
+
+def mixed_NB_predict(num_nb_model, cat_nb_model, mixed_nb_model, X):
+    num_columns = ['age', 'blood_pressure_min', 'blood_pressure_max', 'bmi']
+    X_num = X[num_columns]
+    X_cat = X.drop(columns = num_columns)
+
+    y_num_proba = num_nb_model.predict_proba(X_num)[:,1].reshape(-1,1)
+    y_cat_proba = cat_nb_model.predict_proba(X_cat)[:,1].reshape(-1,1)
+
+    X_new = np.hstack((y_cat_proba, y_num_proba))
+
+    y_pred = mixed_nb_model.predict(X_new)
+    y_proba = mixed_nb_model.predict_proba(X_new)[:,1]
+
+    return y_pred, y_proba
