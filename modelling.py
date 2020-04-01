@@ -28,7 +28,7 @@ def plot_roc_curve(fprs, tprs, model_name):
     plt.legend(loc = "lower right")
     return plt.show();
 
-def optimal_threshold(fprs, tprs, thresholds, log_odds = False):
+def optimal_threshold(fprs, tprs, thresholds):
     distances = []
     for fpr, tpr in zip(fprs,tprs):
         distance = np.sqrt(fpr**2 + (1-tpr)**2)
@@ -91,7 +91,7 @@ def model_report(y, y_hat, y_proba, model_name):
     best_threshold = optimal_threshold(fprs, tprs, thresholds)
     print("- optimal probability threshold:")
     print("")
-    print(round(best_threshold, 2))
+    print(round(best_threshold, 3))
     print("")
 
     print("- precision recall tradeoff:")
