@@ -46,14 +46,14 @@ The models used in this project included:
 - **Soft/Hard Voting Classifiers** <br/><br/>
 - **Stacked Models** <br/><br/>
 
-The general methodology followed for each model involved:
+General methodology for each model:
 
-1. Training a baseline model. <br/><br/>
-2. Validating baseline model using AUC value. <br/><br/>
-3. Tuning hyperparameters using Grid Search with 5-fold Cross Validation. <br/><br/>
-4. Training tuned model. <br/><br/>
-5. Finding optimal probability threshold for tuned model using ROC curve. <br/><br/>
-6. Validating tuned model (with updated threshold) using AUC value, precision and recall. <br/><br/>
+1. Train baseline model. <br/><br/>
+2. Validate baseline model using AUC value. <br/><br/>
+3. Tune hyperparameters using Grid Search with 5-fold Cross Validation. <br/><br/>
+4. Train tuned model. <br/><br/>
+5. Find optimal probability threshold for tuned model using ROC curve. <br/><br/>
+6. Validate tuned model (with updated threshold) using AUC value, precision and recall. <br/><br/>
 
 
 
