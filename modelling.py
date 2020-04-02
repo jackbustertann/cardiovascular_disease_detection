@@ -6,7 +6,11 @@ import seaborn as sns
 
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score
 from sklearn.metrics import roc_curve
-from sklearn.naive_bayes import CategoricalNB, GaussianNB
+
+from data_preprocessing import data_preprocessor
+from scipy import stats
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
 def classification_metrics(y, y_hat):
     accuracy = round(accuracy_score(y, y_hat), 3)
@@ -113,38 +117,60 @@ def model_report(y, y_hat, y_proba, model_name):
     
     return None
 
-def mixed_NB(X, y):
-    num_columns = ['age', 'blood_pressure_min', 'blood_pressure_max', 'bmi']
-    X_num = X[num_columns]
-    X_cat = X.drop(columns = num_columns)
+def concat_outputs(trained_models_tuple, X, output = "predict"):
 
-    num_nb = GaussianNB()
-    cat_nb = CategoricalNB()
+  X_scaled = data_preprocessor(X)
+  X_binned = data_preprocessor(X, bins = True)
 
-    num_nb_model = num_nb.fit(X_num, y)
-    cat_nb_model = cat_nb.fit(X_cat, y)
+  outputs = []
+  for model in trained_models_tuple:
+    if output == "predict":
+      if model[1] == "scaled":
+        y_hat = model[0].predict(X_scaled).reshape(-1,1)
+      elif model[1] == "binned":
+        y_hat = model[0].predict(X_binned).reshape(-1,1)
+      outputs.append(y_hat)
+    elif output == "proba":
+      if model[1] == "scaled":
+        y_proba = model[0].predict_proba(X_scaled)[:,1].reshape(-1,1)
+      elif model[1] == "binned":
+        y_proba = model[0].predict_proba(X_binned)[:,1].reshape(-1,1)
+      outputs.append(y_proba)
+  outputs_concat = np.hstack(outputs)
+  return outputs_concat
 
-    y_num_proba = num_nb_model.predict_proba(X_num)[:,1].reshape(-1,1)
-    y_cat_proba = cat_nb_model.predict_proba(X_cat)[:,1].reshape(-1,1)
+def voting_classifier(trained_models_tuple, X, hard = True):
+  if hard:
+    X_concat = concat_outputs(trained_models_tuple, X)
+    y_hat = stats.mode(X_concat, axis = 1)[0].reshape(-1)
+    return y_hat
+  else:
+    X_concat = concat_outputs(trained_models_tuple, X, output = "proba")
+    y_proba = np.mean(X_concat, axis = 1)
+    y_hat = np.array(pd.Series(y_proba).map(lambda x: 1 if x > 0.5 else 0))
+    return y_hat, y_proba
 
-    X_trans = np.hstack((y_cat_proba, y_num_proba))
+def stacked_model(models_tuple, X_train, X_test, y_train, set_2_split = 0.5):
+  
+  X_set_1, X_set_2, y_set_1, y_set_2 = train_test_split(X_train, y_train, test_size = set_2_split, random_state = 0, stratify = y_train)
+  X_set_1_scaled = data_preprocessor(X_set_1)
+  X_set_1_binned = data_preprocessor(X_set_1, bins = True)
 
-    mixed_nb = GaussianNB()
-    mixed_nb_model = mixed_nb.fit(X_trans, y)
+  trained_models_tuple = []
+  for model in models_tuple:
+    if model[1] == "scaled":
+      trained_model = model[0].fit(X_set_1_scaled, y_set_1)
+    elif model[1] == "binned":
+      trained_model = model[0].fit(X_set_1_binned, y_set_1)
+    trained_models_tuple.append((trained_model, model[1]))
+  
+  X_set_2_concat = concat_outputs(trained_models_tuple, X_set_2, output = "proba")
 
-    return num_nb, cat_nb, mixed_nb
+  stacked = LogisticRegression()
+  stacked_model = stacked.fit(X_set_2_concat, y_set_2)
 
-def mixed_NB_predict(num_nb_model, cat_nb_model, mixed_nb_model, X):
-    num_columns = ['age', 'blood_pressure_min', 'blood_pressure_max', 'bmi']
-    X_num = X[num_columns]
-    X_cat = X.drop(columns = num_columns)
+  X_test_concat = concat_outputs(trained_models_tuple, X_test, output = "proba")
+  y_test_hat = stacked_model.predict(X_test_concat)
+  y_test_proba = stacked_model.predict_proba(X_test_concat)[:,1]
 
-    y_num_proba = num_nb_model.predict_proba(X_num)[:,1].reshape(-1,1)
-    y_cat_proba = cat_nb_model.predict_proba(X_cat)[:,1].reshape(-1,1)
-
-    X_new = np.hstack((y_cat_proba, y_num_proba))
-
-    y_pred = mixed_nb_model.predict(X_new)
-    y_proba = mixed_nb_model.predict_proba(X_new)[:,1]
-
-    return y_pred, y_proba
+  return y_test_hat, y_test_proba
