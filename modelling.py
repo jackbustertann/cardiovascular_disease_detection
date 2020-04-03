@@ -7,6 +7,9 @@ import seaborn as sns
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score
 from sklearn.metrics import roc_curve
 
+from tensorflow.python.keras.layers import Dense
+from tensorflow.python.keras import Sequential
+
 from data_preprocessing import data_preprocessor
 from scipy import stats
 from sklearn.model_selection import train_test_split
@@ -116,6 +119,21 @@ def model_report(y, y_hat, y_proba, model_name):
     print("")
     
     return None
+
+def build_nn(hidden_layers = 1, units = 10, activation = "relu", optimizer = "rmsprop"):
+
+  network = Sequential()
+  network.add(Dense(units, input_dim = 10, activation = activation))
+
+  if hidden_layers > 1:
+    for i in range(hidden_layers - 1):
+      network.add(Dense(units, activation = activation))
+
+  network.add(Dense(1, activation = "sigmoid"))
+
+  network.compile(loss = 'binary_crossentropy', optimizer = optimizer, metrics = ['accuracy'])
+
+  return network
 
 def concat_outputs(trained_models_tuple, X, output = "predict"):
 
