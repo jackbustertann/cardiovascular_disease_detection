@@ -29,7 +29,7 @@ Upon exploring the data, I discovered that:
 2. Patients with a high bmi increased their risk of disease. <br/><br/>
 <img src="/images/bmi_and_gender.png"/>
 
-3. Patients with high blood pressure were the most at risk of disease. <br/><br/>
+3. Patients with high blood pressure were the group most at risk of disease. <br/><br/>
 <img src="/images/top_12_groups.png"/>
 
 ## Modelling
@@ -60,6 +60,14 @@ Possible outcomes:
 - **False Positive** = diagnosing someone with disease, when they are healthy. <br/><br/>
 - **False Negative** = diagnosing someone as healthy, when they have disease.
 
-<img src="/images/precision_recall_plot.png" width="700"/>
+After considering the possible outcomes for disease detection, it was decided that the cost of a false negative was greater than a false positive in the absence of any additional domain-specific information. As a result of this, recall was given more importance than precision during the model selection process.
+
+Model selection:
+
+<img src="/images/precision_recall_plot.png" width="700"/> <br/><br/>
+
+Using the graph above, it was decided that the **Logistic Regression** model had the best precision recall trade-off compared with all the other models tested. 
+
+<img src="/images/lr_coefficients.png" width="500"/> <br/><br/>
 
 ## Conclusions
