@@ -34,21 +34,7 @@ Upon exploring the data, I discovered that:
 
 ## Modelling
 
-The models used in this project included: 
-
-- **Logistic Regression** <br/><br/>
-- **k-Nearest Neighbours** <br/><br/>
-- **Naive Bayes Classifier** <br/><br/>
-- **Support Vector Machine** <br/><br/>
-- **Nueral Network** <br/><br/>
-- **Decision Tree** <br/><br/>
-- **Random Forest (with/without boosting)** <br/><br/>
-- Other Ensemble Methods:
-  - **Bagged Classifiers** <br/>
-  - **Soft/Hard Voting Classifiers** <br/><br/>
-  - **Stacked Classifiers** <br/><br/>
-
-General methodology for each model:
+General methodology:
 
 1. Train baseline model. <br/><br/>
 2. Validate baseline model using AUC value. <br/><br/>
@@ -57,6 +43,23 @@ General methodology for each model:
 5. Find optimal probability threshold for tuned model using ROC curve. <br/><br/>
 6. Validate tuned model (with updated threshold) using AUC value, precision and recall. <br/><br/>
 
+Baseline models:
 
+<img src="/images/precision_recall_base.png"/>
+
+Ensemble models:
+
+<img src="/images/precision_recall_ensemble.png"/>
+
+## Model Selection
+
+Possible outcomes:
+
+- **True Positive** = diagnosing someone with disease, when they have disease. <br/><br/>
+- **True Negative** = diagnosing someone as healthy, when they are healthy. <br/><br/>
+- **False Positive** = diagnosing someone with disease, when they are healthy. <br/><br/>
+- **False Negative** = diagnosing someone as healthy, when they have disease.
+
+<img src="/images/precision_recall_plot.png" width="700"/>
 
 ## Conclusions
