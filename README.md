@@ -40,11 +40,13 @@ The models used in this project included:
 - **k-Nearest Neighbours** <br/><br/>
 - **Naive Bayes Classifier** <br/><br/>
 - **Support Vector Machine** <br/><br/>
+- **Nueral Network** <br/><br/>
 - **Decision Tree** <br/><br/>
 - **Random Forest (with/without boosting)** <br/><br/>
-- **Nueral Network** <br/><br/>
-- **Soft/Hard Voting Classifiers** <br/><br/>
-- **Stacked Models** <br/><br/>
+- Other Ensemble Methods:
+  - **Bagged Classifiers** <br/>
+  - **Soft/Hard Voting Classifiers** <br/><br/>
+  - **Stacked Classifiers** <br/><br/>
 
 General methodology for each model:
 
