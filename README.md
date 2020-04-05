@@ -66,8 +66,11 @@ Model selection:
 
 <img src="/images/precision_recall_plot.png" width="700"/> <br/><br/>
 
-Using the graph above, it was decided that the **Logistic Regression** model had the best precision recall trade-off compared with all the other models tested. In addition to this, it was also desirable for the final model to have parametric form so that relative importance of each feature could be easily interpreted.
+Using the graph above, it was decided that the **Logistic Regression** model had the best precision recall trade-off compared with all the other models tested. In addition to this, it also had a parametric form meaning that the relative importance of each feature could be easily interpreted.
 
 <img src="/images/lr_coefficients.png" width="550"/> <br/><br/>
 
 ## Conclusions
+
+- Models generally had a bias towards precision, even when the probability threshold was set well below 50%. This suggests that the features used to train the models were not preditive enough for detecting disease with a sufficient level of confidence. To address this limitation in the data, more specific categories for alcohol consumption, smoking level and activity level should be provided to patients in future surveys. <br/><br/>
+- Systolic blood pressure, age and cholesterol level consistently appeared amongst the top three features for most models. Using this information, healthcare institutions could provide targeted health advice to people over the age of 40 to reduce their likelihood of disease. 
