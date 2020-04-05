@@ -66,10 +66,8 @@ Model selection:
 
 <img src="/images/precision_recall_plot.png" width="700"/> <br/><br/>
 
-Using the graph above, it was decided that the **Logistic Regression** model had the best precision recall trade-off compared with all the other models tested. 
+Using the graph above, it was decided that the **Logistic Regression** model had the best precision recall trade-off compared with all the other models tested. In addition to this, it was also desirable for the final model to have parametric form so that relative importance of each feature could be easily interpreted.
 
-<img src="/images/lr_confusion_matrix.png" width="390"/> <img src="/images/lr_roc.png" width="410"/>
-
-<img src="/images/lr_coefficients.png" width="550"/> 
+<img src="/images/lr_coefficients.png" width="550"/> <br/><br/>
 
 ## Conclusions
